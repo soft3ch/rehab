@@ -45,10 +45,10 @@ export default function BookingForm() {
     setIsLoading(true);
     
     try {
-      // 1. Guardar en Supabase (Opcional por ahora, pero lo dejamos listo)
-      // await appointmentService.create(formData);
+      // 1. Generar número de confirmación aleatorio
+      const confirmationNumber = `REH-${Math.random().toString(36).toUpperCase().substring(2, 8)}`;
       
-      // 2. Enviar Email de Confirmación
+      // 2. Enviar Email de Confirmación con todos los detalles
       const response = await fetch('/api/notifications/booking-confirmation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -56,6 +56,9 @@ export default function BookingForm() {
           email: formData.email,
           name: formData.name,
           date: formData.date,
+          time: formData.time,
+          specialty: selectedSpecialty?.name || 'Consulta General',
+          confirmationNumber: confirmationNumber
         }),
       });
 
